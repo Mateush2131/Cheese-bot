@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Сырком — Каталог</title>
+  <script src="https://telegram.org/js/telegram-web-app.js"></script>
+  <link rel="stylesheet" href="/webapp/static/style.css">
+</head>
+<body>
+  <div id="app">
+    <!-- Header -->
+    <header class="header">
+      <div class="header-top">
+        <h1 class="logo">🧀 Сырком</h1>
+        <button class="cart-badge" id="cartBadge" onclick="showPage('cart')">
+          🛒 <span id="cartCount">0</span>
+        </button>
+      </div>
+      <div class="search-bar">
+        <input type="search" id="searchInput" placeholder="🔍 Поиск товаров..." autocomplete="off">
+      </div>
+    </header>
+
+    <!-- Navigation -->
+    <nav class="nav-tabs">
+      <button class="nav-tab active" data-page="catalog" onclick="showPage('catalog')">Каталог</button>
+      <button class="nav-tab" data-page="cart" onclick="showPage('cart')">Корзина</button>
+      <button class="nav-tab" data-page="profile" onclick="showPage('profile')">Профиль</button>
+    </nav>
+
+    <!-- Catalog Page -->
+    <section id="page-catalog" class="page active">
+      <div class="filters">
+        <select id="countryFilter" onchange="loadProducts()">
+          <option value="">Все страны</option>
+        </select>
+        <select id="categoryFilter" onchange="loadProducts()">
+          <option value="">Все категории</option>
+        </select>
+      </div>
+      <div id="productsList" class="products-grid"></div>
+      <div id="catalogEmpty" class="empty-state hidden">Товары не найдены</div>
+    </section>
+
+    <!-- Product Detail Modal -->
+    <div id="productModal" class="modal hidden">
+      <div class="modal-content">
+        <button class="modal-close" onclick="closeProductModal()">✕</button>
+        <div id="productDetail"></div>
+      </div>
+    </div>
+
+    <!-- Cart Page -->
+    <section id="page-cart" class="page">
+      <div id="cartItems" class="cart-list"></div>
+      <div id="cartEmpty" class="empty-state">Корзина пуста</div>
+      <div id="cartFooter" class="cart-footer hidden">
+        <div class="cart-total">
+          Итого: <strong id="cartTotal">0 ₽</strong>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="showCheckout()">Оформить заказ</button>
+      </div>
+    </section>
+
+    <!-- Checkout -->
+    <section id="page-checkout" class="page">
+      <h2 class="page-title">Оформление заказа</h2>
+      <form id="checkoutForm" class="checkout-form" onsubmit="submitOrder(event)">
+        <div class="form-group">
+          <label>Имя</label>
+          <input type="text" id="orderName" readonly>
+        </div>
+        <div class="form-group">
+          <label>Телефон *</label>
+          <input type="tel" id="orderPhone" placeholder="+7 (999) 000-00-00" required>
+        </div>
+        <div class="form-group">
+          <label>Адрес доставки *</label>
+          <textarea id="orderAddress" placeholder="Город, улица, дом, квартира" required rows="2"></textarea>
+        </div>
+        <div class="form-group">
+          <label>Комментарий (промокод)</label>
+          <textarea id="orderComment" placeholder="КОНТРАБАНДА1 или пожелания к заказу" rows="2"></textarea>
+        </div>
+        <button type="submit" class="btn btn-primary btn-full">Отправить заказ</button>
+        <button type="button" class="btn btn-secondary btn-full" onclick="showPage('cart')">Назад</button>
+      </form>
+    </section>
+
+    <!-- Order Success -->
+    <section id="page-success" class="page">
+      <div class="success-block">
+        <div class="success-icon">✅</div>
+        <h2>Заказ оформлен!</h2>
+        <p id="successOrderId"></p>
+        <div class="payment-block">
+          <h3>Реквизиты для оплаты:</h3>
+          <pre id="paymentDetails"></pre>
+        </div>
+        <button class="btn btn-primary btn-full" onclick="showPage('catalog')">Вернуться в каталог</button>
+      </div>
+    </section>
+
+    <!-- Profile Page -->
+    <section id="page-profile" class="page">
+      <div class="profile-header">
+        <div class="profile-avatar" id="profileAvatar">🧀</div>
+        <div class="profile-info">
+          <h2 id="profileName">—</h2>
+          <p id="profileCity">—</p>
+        </div>
+      </div>
+
+      <div class="profile-tabs">
+        <button class="profile-tab active" data-tab="orders" onclick="switchProfileTab('orders')">Мои заказы</button>
+        <button class="profile-tab" data-tab="favorites" onclick="switchProfileTab('favorites')">Избранное</button>
+        <button class="profile-tab" data-tab="promotions" onclick="switchProfileTab('promotions')">Акции</button>
+      </div>
+
+      <div id="tab-orders" class="profile-tab-content active">
+        <div id="ordersList"></div>
+        <div id="ordersEmpty" class="empty-state">Заказов пока нет</div>
+      </div>
+      <div id="tab-favorites" class="profile-tab-content">
+        <div id="favoritesList" class="products-grid"></div>
+        <div id="favoritesEmpty" class="empty-state">Избранное пусто</div>
+      </div>
+      <div id="tab-promotions" class="profile-tab-content">
+        <div id="promotionsList"></div>
+        <a id="channelLink" class="channel-btn hidden" href="https://t.me/cheessecom" target="_blank">
+          📢 Подписаться на @cheessecom
+        </a>
+      </div>
+    </section>
+
+    <!-- Loading -->
+    <div id="loader" class="loader hidden">
+      <div class="spinner"></div>
+    </div>
+  </div>
+
+  <script src="/webapp/static/app.js"></script>
+</body>
+</html>
