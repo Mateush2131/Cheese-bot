@@ -4,8 +4,8 @@ from pathlib import Path
 BASE_DIR = Path(__file__).resolve().parent
 
 # Telegram
-BOT_TOKEN = os.getenv("BOT_TOKEN", "8922217599:AAGJxdPuLakZFSRKJOSH1IPMma9uCKTWj8Q")
-ADMIN_ID = int(os.getenv("ADMIN_ID", "6033527749"))
+BOT_TOKEN = os.getenv("BOT_TOKEN", "YOUR_BOT_TOKEN_HERE")
+ADMIN_ID = int(os.getenv("ADMIN_ID", "123456789"))
 ADMIN_IDS = [ADMIN_ID] + [
     int(x.strip())
     for x in os.getenv("EXTRA_ADMIN_IDS", "").split(",")
@@ -19,7 +19,7 @@ TELEGRAM_CHANNEL_URL = "https://t.me/cheessecom"
 # Web App & API
 WEBAPP_URL = os.getenv(
     "WEBAPP_URL",
-    "https://gentleman-assembled-msgid-driver.trycloudflare.com/webapp",
+    "https://your-domain.com/webapp",
 )
 API_HOST = os.getenv("API_HOST", "0.0.0.0")
 API_PORT = int(os.getenv("API_PORT", "8000"))

@@ -1,0 +1,12 @@
+venv/
+__pycache__/
+*.pyc
+*.pyo
+.DS_Store
+.env
+data/
+*.db
+presentation_syrkom.pptx
+generate_presentation.py
+*Копычев*.docx
+*индивидуальный*.docx
